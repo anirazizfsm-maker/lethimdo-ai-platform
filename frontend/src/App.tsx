@@ -28,13 +28,13 @@ const LandingPage: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 py-20">
         <div className="text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-            Transform
-            <span className="text-blue-600"> Natural Language </span>
-            into AI Workflows
+            Connect with
+            <span className="text-blue-600"> Every API </span>
+            Effortlessly
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Lethimdo uses advanced AI to convert your business requirements into executable n8n workflows. 
-            Universal API integration + Natural language processing + Intelligent automation.
+            Lethimdo's Universal API Integration Platform connects with any service that has an API. 
+            150+ pre-built integrations, auto-discovery, custom builders, and community marketplace.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/dashboard" className="px-8 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-semibold">
@@ -60,14 +60,9 @@ const LandingPage: React.FC = () => {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           <FeatureCard
-            icon="🤖"
-            title="AI Workflow Generation"
-            description="Describe your automation in plain English and watch AI create intelligent n8n workflows."
-          />
-          <FeatureCard
             icon="🔌"
-            title="150+ Integrations"
-            description="Pre-built connections to Salesforce, Google, Slack, Stripe, and more popular services."
+            title="150+ Pre-Built"
+            description="Ready-to-use integrations for Salesforce, Google, Slack, Stripe, and more popular services."
           />
           <FeatureCard
             icon="🔍"
@@ -75,9 +70,14 @@ const LandingPage: React.FC = () => {
             description="Paste any API URL and let Lethimdo automatically discover and configure the integration."
           />
           <FeatureCard
+            icon="🛠️"
+            title="Custom Builder"
+            description="Visual integration builder for custom APIs with authentication and endpoint configuration."
+          />
+          <FeatureCard
             icon="🏪"
-            title="AI Marketplace"
-            description="Browse community-created workflows and integrations with intelligent recommendations."
+            title="Community Marketplace"
+            description="Browse, install, and share integrations created by the community with one-click setup."
           />
         </div>
       </div>
