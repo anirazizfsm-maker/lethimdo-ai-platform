@@ -1,41 +1,9 @@
-# Railway Configuration for Backend Deployment
-
 [build]
-  buildCommand = \"npm run build\"
-  watchPatterns = [\"src/**\"]
+  builder = "NIXPACKS"
 
 [deploy]
-  startCommand = \"npm start\"
-  healthcheckPath = \"/api/health\"
+  startCommand = "npm start"
+  healthcheckPath = "/health"
   healthcheckTimeout = 300
-
-# Environment Variables (set in Railway dashboard or via CLI)
-# Required:
-# NODE_ENV=production
-# JWT_SECRET=your-secure-jwt-secret
-# DATABASE_URL=postgresql://user:password@host:port/database
-# FRONTEND_URL=https://your-frontend-domain.vercel.app
-# 
-# Optional (for full functionality):
-# OPENAI_API_KEY=your-openai-api-key
-# GOOGLE_CLIENT_ID=your-google-oauth-client-id
-# GOOGLE_CLIENT_SECRET=your-google-oauth-client-secret
-# SLACK_CLIENT_ID=your-slack-oauth-client-id
-# SLACK_CLIENT_SECRET=your-slack-oauth-client-secret
-# NOTION_CLIENT_ID=your-notion-oauth-client-id
-# NOTION_CLIENT_SECRET=your-notion-oauth-client-secret
-# N8N_API_URL=your-n8n-instance-url
-# N8N_API_KEY=your-n8n-api-key
-# REDIS_URL=redis://your-redis-instance (optional)
-
-[volumes]
-  # Add if you need persistent storage
-  # \"/app/uploads\" = \"uploads\"
-
-[services.backend]
-  source = \".\"
-  build = [\"npm install\", \"npm run build\"]
-  start = \"npm start\"
-  
-  [services.backend.env]
-    PORT = \"3001\"", "original_text": "", "replace_all": false}
+  restartPolicyType = "ON_FAILURE"
+  restartPolicyMaxRetries = 10
