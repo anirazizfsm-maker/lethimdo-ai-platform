@@ -134,4 +134,4 @@ volumes:
 
 networks:
   default:
-    name: alfa-workflow-network", "original_text": "", "replace_all": false}
+    name: lethimdo-network
