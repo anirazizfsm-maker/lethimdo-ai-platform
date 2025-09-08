@@ -1,55 +1,50 @@
-import { Server } from 'socket.io';
+import { Server, Socket } from 'socket.io';
 import jwt from 'jsonwebtoken';
 import { logger } from '../utils/logger';
 
-interface AuthenticatedSocket extends any {
+// Extend socket type to include authentication data
+interface AuthenticatedSocket extends Socket {
   userId?: string;
   userEmail?: string;
 }
 
 export class SocketService {
   private io: Server;
-  private userSockets: Map<string, Set<string>> = new Map(); // userId -> Set of socketIds
+  private userSockets: Map<string, Set<string>>;
 
   constructor(io: Server) {
     this.io = io;
+    this.userSockets = new Map();
   }
 
   public initialize(): void {
-    // Authentication middleware
-    this.io.use(async (socket: AuthenticatedSocket, next) => {
-      try {
-        const token = socket.handshake.auth.token || socket.handshake.headers.authorization?.replace('Bearer ', '');
-        
-        if (!token) {
-          return next(new Error('Authentication required'));
-        }
+    this.io.use(this.authenticateSocket.bind(this));
+    this.io.on('connection', this.handleConnection.bind(this));
+    logger.info('Socket.IO service initialized');
+  }
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback-secret') as any;
-        socket.userId = decoded.id;
-        socket.userEmail = decoded.email;
-        
-        logger.info(`Socket authenticated for user: ${socket.userEmail}`);
-        next();
-      } catch (error) {
-        logger.error('Socket authentication failed:', error);
-        next(new Error('Authentication failed'));
+  private authenticateSocket(socket: AuthenticatedSocket, next: Function): void {
+    try {
+      const token = socket.handshake.auth.token || socket.handshake.headers.authorization;
+      
+      if (!token) {
+        return next(new Error('Authentication token required'));
       }
-    });
 
-    this.io.on('connection', (socket: AuthenticatedSocket) => {
-      this.handleConnection(socket);
-    });
+      const decoded = jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET!) as any;
+      socket.userId = decoded.userId;
+      socket.userEmail = decoded.email;
+      
+      next();
+    } catch (error) {
+      logger.error('Socket authentication failed:', error);
+      next(new Error('Authentication failed'));
+    }
   }
 
   private handleConnection(socket: AuthenticatedSocket): void {
-    const userId = socket.userId;
-    const userEmail = socket.userEmail;
-
-    if (!userId) {
-      socket.disconnect();
-      return;
-    }
+    const userId = socket.userId!;
+    const userEmail = socket.userEmail!;
 
     // Track user connections
     if (!this.userSockets.has(userId)) {
@@ -57,79 +52,33 @@ export class SocketService {
     }
     this.userSockets.get(userId)!.add(socket.id);
 
+    // Join user-specific rooms
+    socket.join(`user_${userId}`);
+    socket.join(`analytics_${userId}`);
+    socket.join(`integrations_${userId}`);
+
     logger.info(`User connected: ${userEmail} (${socket.id})`);
 
-    // Join user-specific room
-    socket.join(`user_${userId}`);
-
-    // Legacy support for existing authentication event
-    socket.on('authenticate', (data) => {
-      const { userId: authUserId } = data;
-      socket.join(`user_${authUserId}`);
-      logger.info(`User ${authUserId} authenticated and joined room`);
+    // Handle disconnection
+    socket.on('disconnect', () => {
+      this.handleDisconnection(socket);
     });
 
-      // Handle workflow updates subscription
-      socket.on('subscribe-workflow-updates', (workflowId) => {
-        socket.join(`workflow_${workflowId}`);
-        logger.info(`Client ${socket.id} subscribed to workflow ${workflowId} updates`);
-      });
+    // Handle workflow subscription
+    socket.on('subscribe-workflow', (workflowId: string) => {
+      socket.join(`workflow_${workflowId}`);
+      logger.debug(`User ${userEmail} subscribed to workflow ${workflowId}`);
+    });
 
-      // Enhanced workflow subscription
-      socket.on('workflow:subscribe', (workflowId: string) => {
-        socket.join(`workflow_${workflowId}`);
-        logger.info(`User ${userEmail} subscribed to workflow ${workflowId}`);
-      });
+    // Handle workflow unsubscription
+    socket.on('unsubscribe-workflow', (workflowId: string) => {
+      socket.leave(`workflow_${workflowId}`);
+      logger.debug(`User ${userEmail} unsubscribed from workflow ${workflowId}`);
+    });
 
-      socket.on('workflow:unsubscribe', (workflowId: string) => {
-        socket.leave(`workflow_${workflowId}`);
-        logger.info(`User ${userEmail} unsubscribed from workflow ${workflowId}`);
-      });
-
-      // Handle analytics updates subscription
-      socket.on('subscribe-analytics', (userId) => {
-        socket.join(`analytics_${userId}`);
-        logger.info(`Client ${socket.id} subscribed to analytics for user ${userId}`);
-      });
-
-      // Enhanced analytics subscription
-      socket.on('analytics:subscribe', () => {
-        socket.join(`analytics_${userId}`);
-        logger.info(`User ${userEmail} subscribed to analytics updates`);
-      });
-
-      socket.on('analytics:unsubscribe', () => {
-        socket.leave(`analytics_${userId}`);
-        logger.info(`User ${userEmail} unsubscribed from analytics updates`);
-      });
-
-      // Handle integration status updates
-      socket.on('integrations:subscribe', () => {
-        socket.join(`integrations_${userId}`);
-        logger.info(`User ${userEmail} subscribed to integration updates`);
-      });
-
-      socket.on('integrations:unsubscribe', () => {
-        socket.leave(`integrations_${userId}`);
-        logger.info(`User ${userEmail} unsubscribed from integration updates`);
-      });
-
-      // Handle real-time workflow testing
-      socket.on('workflow:test', (data) => {
-        logger.info(`User ${userEmail} initiated workflow test`);
-        // Emit test results in real-time
-        socket.emit('workflow:test:progress', { step: 'validation', status: 'running' });
-      });
-
-      // Handle disconnection
-      socket.on('disconnect', () => {
-        this.handleDisconnection(socket);
-      });
-
-      // Error handling
-      socket.on('error', (error) => {
-        logger.error(`Socket error for user ${userEmail}:`, error);
-      });
+    // Handle errors
+    socket.on('error', (error: Error) => {
+      logger.error(`Socket error for user ${userEmail}:`, error);
     });
   }
 
@@ -146,7 +95,6 @@ export class SocketService {
     }
 
     logger.info(`User disconnected: ${userEmail} (${socket.id})`);
-  }
   }
 
   // Enhanced workflow execution methods
