@@ -2,11 +2,11 @@ const express = require('express');
 const cors = require('cors');
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3001;
 
 // Basic middleware
 app.use(cors({
-  origin: 'http://localhost:5174',
+  origin: process.env.FRONTEND_URL || 'http://localhost:5174',
   credentials: true,
 }));
 app.use(express.json());
@@ -17,7 +17,7 @@ app.get('/health', (req, res) => {
     status: 'OK', 
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
-    environment: 'development'
+    environment: process.env.NODE_ENV || 'development'
   });
 });
 
