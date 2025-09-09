@@ -57,7 +57,7 @@ const LandingPage: React.FC = () => {
             ))}
           </div>
           <div className="text-center mt-8">
-            <span className="text-gray-600">And 140+ more integrations available...</span>
+            <span className="text-gray-600">And 150+ more integrations available...</span>
           </div>
         </div>
       </div>
