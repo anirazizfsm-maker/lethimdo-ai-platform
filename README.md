@@ -27,6 +27,7 @@ For detailed setup and deployment instructions, please see our comprehensive doc
 - [Add Environment Variables Guide](ADD-ENVIRONMENT-VARIABLES-GUIDE.md) - How to configure VITE environment variables
 - [Restart Development Server Guide](RESTART-DEVELOPMENT-SERVER-GUIDE.md) - How to restart your development server
 - [Frontend Development Server Guide](FRONTEND-DEVELOPMENT-SERVER-GUIDE.md) - How to run the frontend development server
+- [Detailed GitHub Import Instructions](DETAILED-GITHUB-IMPORT-INSTRUCTIONS.md) - Complete guide for running the GitHub import script and production deployments
 
 ## 📁 Repository Structure
 

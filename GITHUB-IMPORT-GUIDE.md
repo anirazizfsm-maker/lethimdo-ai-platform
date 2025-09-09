@@ -65,6 +65,11 @@ I'll create a script that handles the entire import process for you.
 4. **Legal Compliance** - GDPR, privacy policies included
 5. **Deployment Ready** - Production-grade setup
 
+## 📝 **DETAILED INSTRUCTIONS**
+
+For detailed step-by-step instructions on running the GitHub import script, see:
+[DETAILED-GITHUB-IMPORT-INSTRUCTIONS.md](DETAILED-GITHUB-IMPORT-INSTRUCTIONS.md)
+
 ## 🇧🇩 **BANGLADESH FREELANCE ADVANTAGE**
 
 ### **Repository Positioning:**
