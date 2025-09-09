@@ -1,87 +1,33 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import HeroSection from './components/HeroSection';
+import FeaturesSection from './components/FeaturesSection';
+import DashboardCard from './components/DashboardCard';
+import ApiStatus from './components/ApiStatus';
+import ApiTestPage from './components/ApiTestPage';
+import ProfessionalStyling from './components/ProfessionalStyling';
+import AgencySection from './components/AgencySection';
+import MarketingPage from './components/MarketingPage';
+import { useIntegrations, useConnectIntegration } from './hooks/useApi';
 import './App.css';
 
 // Simple Landing Page Component
 const LandingPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
-      {/* Navigation */}
-      <nav className="relative max-w-7xl mx-auto flex items-center justify-between px-4 py-6">
-        <div className="flex items-center">
-          <div className="h-8 w-8 bg-blue-600 rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-xl">L</span>
-          </div>
-          <span className="ml-2 text-2xl font-bold text-gray-900">Lethimdo</span>
-        </div>
-        <div className="flex space-x-4">
-          <Link to="/login" className="px-4 py-2 text-gray-700 hover:text-gray-900">
-            Sign In
-          </Link>
-          <Link to="/register" className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-            Get Started
-          </Link>
-        </div>
-      </nav>
-
-      {/* Hero Section */}
-      <div className="max-w-7xl mx-auto px-4 py-20">
-        <div className="text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-            Connect with
-            <span className="text-blue-600"> Every API </span>
-            Effortlessly
-          </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Lethimdo's Universal API Integration Platform connects with any service that has an API. 
-            150+ pre-built integrations, auto-discovery, custom builders, and community marketplace.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/dashboard" className="px-8 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-semibold">
-              Start Integrating
-            </Link>
-            <Link to="/integrations" className="px-8 py-3 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 font-semibold">
-              Browse Integrations
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* Features Section */}
-      <div className="max-w-7xl mx-auto px-4 py-16">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            Four Ways to Connect Any API
-          </h2>
-          <p className="text-lg text-gray-600">
-            Universal connectivity for every integration need
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <FeatureCard
-            icon="🔌"
-            title="150+ Pre-Built"
-            description="Ready-to-use integrations for Salesforce, Google, Slack, Stripe, and more popular services."
-          />
-          <FeatureCard
-            icon="🔍"
-            title="Auto-Discovery"
-            description="Paste any API URL and let Lethimdo automatically discover and configure the integration."
-          />
-          <FeatureCard
-            icon="🛠️"
-            title="Custom Builder"
-            description="Visual integration builder for custom APIs with authentication and endpoint configuration."
-          />
-          <FeatureCard
-            icon="🏪"
-            title="Community Marketplace"
-            description="Browse, install, and share integrations created by the community with one-click setup."
-          />
-        </div>
-      </div>
-
+    <div className="min-h-screen bg-white">
+      <ProfessionalStyling />
+      <Header />
+      
+      <HeroSection />
+      
+      <FeaturesSection />
+      
+      {/* Agency Section for Bangladesh Freelance Agencies */}
+      <AgencySection />
+      
       {/* Integration Showcase */}
       <div className="bg-gray-50 py-16">
         <div className="max-w-7xl mx-auto px-4">
@@ -89,6 +35,9 @@ const LandingPage: React.FC = () => {
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               Popular Integrations Ready Now
             </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Connect with the tools your international clients already use
+            </p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-6">
             {[
@@ -101,7 +50,7 @@ const LandingPage: React.FC = () => {
               { name: 'Zoom', icon: '📹' },
               { name: 'Notion', icon: '📝' },
             ].map((integration) => (
-              <div key={integration.name} className="bg-white p-4 rounded-lg text-center hover:shadow-md transition-shadow">
+              <div key={integration.name} className="bg-white p-4 rounded-lg text-center hover:shadow-md transition-shadow border border-gray-100 agency-card">
                 <div className="text-3xl mb-2">{integration.icon}</div>
                 <div className="text-sm font-medium text-gray-900">{integration.name}</div>
               </div>
@@ -114,7 +63,7 @@ const LandingPage: React.FC = () => {
       </div>
 
       {/* CTA Section */}
-      <div className="bg-blue-600 py-16">
+      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 py-16">
         <div className="max-w-4xl mx-auto text-center px-4">
           <h2 className="text-3xl font-bold text-white mb-4">
             Ready to Connect Your APIs?
@@ -123,30 +72,17 @@ const LandingPage: React.FC = () => {
             Join thousands of developers using Lethimdo for universal API connectivity
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/register" className="px-8 py-3 bg-white text-blue-600 rounded-md hover:bg-gray-100 font-semibold">
+            <Link to="/register" className="px-8 py-3 bg-white text-blue-600 rounded-md hover:bg-gray-100 font-semibold transition-colors agency-button">
               Start Free Trial
             </Link>
-            <Link to="/docs" className="px-8 py-3 border-2 border-white text-white rounded-md hover:bg-white hover:text-blue-600 font-semibold">
+            <Link to="/docs" className="px-8 py-3 border-2 border-white text-white rounded-md hover:bg-white hover:text-blue-600 font-semibold transition-colors agency-button">
               View Documentation
             </Link>
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <footer className="bg-gray-900 py-12">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <div className="flex items-center justify-center mb-4">
-            <div className="h-6 w-6 bg-blue-400 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">L</span>
-            </div>
-            <span className="ml-2 text-lg font-semibold text-white">Lethimdo</span>
-          </div>
-          <p className="text-gray-400">
-            © 2024 Lethimdo. All rights reserved.
-          </p>
-        </div>
-      </footer>
+      
+      <Footer />
     </div>
   );
 };
@@ -155,37 +91,41 @@ const LandingPage: React.FC = () => {
 const Dashboard: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <div className="h-8 w-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">L</span>
-              </div>
-              <span className="ml-2 text-xl font-bold text-gray-900">Lethimdo Dashboard</span>
-            </div>
-            <Link to="/" className="text-gray-600 hover:text-gray-900">
-              ← Back to Home
-            </Link>
+      <Header title="Lethimdo Dashboard" subtitle="" />
+      
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">Welcome to Your Dashboard</h1>
+            <p className="mt-2 text-gray-600">Manage your API integrations and workflows</p>
+          </div>
+          <div className="flex space-x-3">
+            <button className="px-4 py-2 bg-white border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 font-medium">
+              Settings
+            </button>
+            <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-medium">
+              Create Workflow
+            </button>
           </div>
         </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Welcome to Your Dashboard</h1>
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* API Connection Status */}
+        <ApiStatus />
+        
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           <DashboardCard
             title="Integrations"
             description="150+ API integrations ready to use"
             icon="🔌"
             link="/integrations"
+            stat="24"
           />
           <DashboardCard
             title="Auto-Discovery"
             description="Discover any API automatically"
             icon="🔍"
             link="/discover"
+            badge="New"
           />
           <DashboardCard
             title="Custom Builder"
@@ -200,10 +140,11 @@ const Dashboard: React.FC = () => {
             link="/marketplace"
           />
           <DashboardCard
-            title="Analytics"
-            description="Integration performance"
-            icon="📊"
-            link="/analytics"
+            title="API Testing"
+            description="Test backend connectivity"
+            icon="🧪"
+            link="/test-api"
+            badge="Recommended"
           />
           <DashboardCard
             title="Documentation"
@@ -242,51 +183,19 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
       </div>
+      
+      <Footer />
     </div>
   );
 };
 
-// Feature Card Component
-interface FeatureCardProps {
-  icon: string;
-  title: string;
-  description: string;
-}
-
-const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description }) => {
-  return (
-    <div className="text-center p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow">
-      <div className="text-4xl mb-4">{icon}</div>
-      <h3 className="text-lg font-semibold text-gray-900 mb-2">{title}</h3>
-      <p className="text-gray-600">{description}</p>
-    </div>
-  );
-};
-
-// Dashboard Card Component
-interface DashboardCardProps {
-  title: string;
-  description: string;
-  icon: string;
-  link: string;
-}
-
-const DashboardCard: React.FC<DashboardCardProps> = ({ title, description, icon, link }) => {
-  return (
-    <Link to={link} className="block">
-      <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer">
-        <div className="text-3xl mb-4">{icon}</div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">{title}</h3>
-        <p className="text-gray-600">{description}</p>
-        <div className="mt-4 text-blue-600 font-medium">Learn more →</div>
-      </div>
-    </Link>
-  );
-};
 
 // Simple Integrations Page
 const IntegrationsPage: React.FC = () => {
-  const integrations = [
+  const { data: integrationsResponse, isLoading, error } = useIntegrations();
+  const connectMutation = useConnectIntegration();
+
+  const integrations = integrationsResponse?.data?.data || [
     { id: 'salesforce', name: 'Salesforce', icon: '🔹', category: 'CRM', status: 'Available' },
     { id: 'google', name: 'Google Workspace', icon: '🌐', category: 'Productivity', status: 'Available' },
     { id: 'slack', name: 'Slack', icon: '💬', category: 'Communication', status: 'Available' },
@@ -295,23 +204,51 @@ const IntegrationsPage: React.FC = () => {
     { id: 'shopify', name: 'Shopify', icon: '🛒', category: 'E-commerce', status: 'Available' },
   ];
 
+  const handleConnect = (id: string) => {
+    connectMutation.mutate(id, {
+      onSuccess: () => {
+        toast.success(`Successfully connected to ${id}!`);
+      },
+      onError: (error: any) => {
+        toast.error(error.response?.data?.message || 'Connection failed');
+      }
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-gray-900">Available Integrations</h1>
-            <Link to="/dashboard" className="text-blue-600 hover:text-blue-700">
-              ← Back to Dashboard
-            </Link>
-          </div>
-        </div>
-      </div>
+      <Header title="Integrations" subtitle="Connect with 150+ popular services" />
 
       <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">Available Integrations</h1>
+            <p className="mt-2 text-gray-600">Connect with the tools your clients use every day</p>
+          </div>
+          <Link to="/dashboard" className="text-blue-600 hover:text-blue-700 font-medium">
+            ← Back to Dashboard
+          </Link>
+        </div>
+        
+        {/* API Connection Status */}
+        <ApiStatus />
+        
+        {isLoading && (
+          <div className="text-center py-8">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+            <p className="mt-2 text-gray-600">Loading integrations...</p>
+          </div>
+        )}
+        
+        {error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            Failed to load integrations. Using fallback data.
+          </div>
+        )}
+        
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {integrations.map((integration) => (
-            <div key={integration.id} className="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
+          {integrations.map((integration: any) => (
+            <div key={integration.id} className="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow border border-gray-100">
               <div className="flex items-center space-x-4 mb-4">
                 <div className="text-3xl">{integration.icon}</div>
                 <div>
@@ -321,14 +258,20 @@ const IntegrationsPage: React.FC = () => {
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-green-600 font-medium">{integration.status}</span>
-                <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm">
-                  Connect
+                <button 
+                  onClick={() => handleConnect(integration.id)}
+                  disabled={connectMutation.isPending}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {connectMutation.isPending ? 'Connecting...' : 'Connect'}
                 </button>
               </div>
             </div>
           ))}
         </div>
       </div>
+      
+      <Footer />
     </div>
   );
 };
@@ -349,6 +292,8 @@ function App() {
           <Route path="/marketplace" element={<Dashboard />} />
           <Route path="/analytics" element={<Dashboard />} />
           <Route path="/docs" element={<Dashboard />} />
+          <Route path="/test-api" element={<ApiTestPage />} />
+          <Route path="/marketing" element={<MarketingPage />} />
         </Routes>
       </div>
     </Router>
