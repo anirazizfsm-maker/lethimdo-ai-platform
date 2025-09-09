@@ -20,14 +20,14 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
 }) => {
   return (
     <Link to={link} className="block group">
-      <div className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 overflow-hidden h-full agency-card">
+      <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden h-full agency-card transform hover:-translate-y-1">
         <div className="p-6">
           <div className="flex items-start justify-between">
-            <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-100 text-blue-600">
+            <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-100 text-blue-600 group-hover:scale-110 transition-transform duration-300">
               <span className="text-xl">{icon}</span>
             </div>
             {badge && (
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 agency-badge">
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 agency-badge animate-pulse">
                 {badge}
               </span>
             )}
@@ -52,7 +52,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
           
           <div className="mt-4 flex items-center text-blue-600 text-sm font-medium">
             <span>Learn more</span>
-            <svg className="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="ml-1 h-4 w-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
             </svg>
           </div>
