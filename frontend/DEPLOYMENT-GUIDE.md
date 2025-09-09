@@ -37,6 +37,8 @@ This guide will help you deploy the Lethimdo frontend to Netlify with a professi
    VITE_API_BASE_URL=https://lethimdo-backend.onrender.com
    VITE_APP_NAME=Lethimdo
    ```
+   
+   For detailed instructions on adding environment variables, see: [ADD-ENVIRONMENT-VARIABLES-GUIDE.md](../ADD-ENVIRONMENT-VARIABLES-GUIDE.md)
 
 ### Step 2: Connect to Netlify
 1. Go to [netlify.com](https://netlify.com) and sign up/sign in
@@ -67,6 +69,8 @@ Netlify should automatically detect the settings, but verify:
    VITE_API_BASE_URL=https://lethimdo-backend.onrender.com
    VITE_APP_NAME=Lethimdo
    ```
+   
+   For detailed instructions, see: [ADD-ENVIRONMENT-VARIABLES-GUIDE.md](../ADD-ENVIRONMENT-VARIABLES-GUIDE.md)
 
 ## 🎨 Professional Design Features
 

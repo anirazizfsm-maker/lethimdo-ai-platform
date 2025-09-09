@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { useAppStore } from './stores/useAppStore';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HeroSection from './components/HeroSection';
@@ -11,7 +12,13 @@ import ApiTestPage from './components/ApiTestPage';
 import ProfessionalStyling from './components/ProfessionalStyling';
 import AgencySection from './components/AgencySection';
 import MarketingPage from './components/MarketingPage';
+import AnalyticsPage from './components/analytics/AnalyticsPage';
+import WorkflowPerformanceDetail from './components/analytics/WorkflowPerformanceDetail';
+import WorkflowsPage from './components/WorkflowsPage';
 import { useIntegrations, useConnectIntegration } from './hooks/useApi';
+import WorkflowBuilder from './components/WorkflowBuilder';
+import { Dialog, Transition } from '@headlessui/react';
+import { Fragment, useState } from 'react';
 import './App.css';
 
 // Simple Landing Page Component
@@ -89,8 +96,65 @@ const LandingPage: React.FC = () => {
 
 // Simple Dashboard Component
 const Dashboard: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Modal Example using Headless UI */}
+      <Transition appear show={isModalOpen} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={() => setIsModalOpen(false)}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900"
+                  >
+                    Quick Action
+                  </Dialog.Title>
+                  <div className="mt-2">
+                    <p className="text-sm text-gray-500">
+                      This modal demonstrates the use of Headless UI components for accessible UI.
+                    </p>
+                  </div>
+
+                  <div className="mt-4">
+                    <button
+                      type="button"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      onClick={() => setIsModalOpen(false)}
+                    >
+                      Got it, thanks!
+                    </button>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
+
       <Header title="Lethimdo Dashboard" subtitle="" />
       
       <div className="max-w-7xl mx-auto px-4 py-8">
@@ -103,7 +167,10 @@ const Dashboard: React.FC = () => {
             <button className="px-4 py-2 bg-white border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 font-medium">
               Settings
             </button>
-            <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-medium">
+            <button 
+              onClick={() => setIsModalOpen(true)}
+              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-medium"
+            >
               Create Workflow
             </button>
           </div>
@@ -119,6 +186,12 @@ const Dashboard: React.FC = () => {
             icon="🔌"
             link="/integrations"
             stat="24"
+          />
+          <DashboardCard
+            title="Workflows"
+            description="Manage your automation workflows"
+            icon="🔄"
+            link="/workflows"
           />
           <DashboardCard
             title="Auto-Discovery"
@@ -140,17 +213,11 @@ const Dashboard: React.FC = () => {
             link="/marketplace"
           />
           <DashboardCard
-            title="API Testing"
-            description="Test backend connectivity"
-            icon="🧪"
-            link="/test-api"
-            badge="Recommended"
-          />
-          <DashboardCard
-            title="Documentation"
-            description="Integration guides"
-            icon="📚"
-            link="/docs"
+            title="Analytics"
+            description="Business intelligence dashboard"
+            icon="📊"
+            link="/analytics"
+            badge="New"
           />
         </div>
 
@@ -285,12 +352,14 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/integrations" element={<IntegrationsPage />} />
-          <Route path="/login" element={<LandingPage />} />
-          <Route path="/register" element={<LandingPage />} />
+          <Route path="/workflows" element={<WorkflowsPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
           <Route path="/discover" element={<Dashboard />} />
-          <Route path="/builder" element={<Dashboard />} />
+          <Route path="/builder" element={<WorkflowBuilder />} />
           <Route path="/marketplace" element={<Dashboard />} />
-          <Route path="/analytics" element={<Dashboard />} />
+          <Route path="/analytics" element={<AnalyticsPage />} />
+          <Route path="/analytics/workflow/:workflowId" element={<WorkflowPerformanceDetail />} />
           <Route path="/docs" element={<Dashboard />} />
           <Route path="/test-api" element={<ApiTestPage />} />
           <Route path="/marketing" element={<MarketingPage />} />

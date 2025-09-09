@@ -155,3 +155,131 @@ export const useGenerateWorkflow = () => {
     },
   });
 };
+
+// Analytics hooks
+export const useAnalyticsOverview = (period?: string) => {
+  return useQuery({
+    queryKey: ['analytics', 'overview', period],
+    queryFn: () => apiEndpoints.analytics.overview(period),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+};
+
+export const useTimeSavings = (period?: string) => {
+  return useQuery({
+    queryKey: ['analytics', 'time-savings', period],
+    queryFn: () => apiEndpoints.analytics.timeSavings(period),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+};
+
+export const useCostSavings = (period?: string) => {
+  return useQuery({
+    queryKey: ['analytics', 'cost-savings', period],
+    queryFn: () => apiEndpoints.analytics.costSavings(period),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+};
+
+export const useWorkflowPerformance = () => {
+  return useQuery({
+    queryKey: ['analytics', 'workflow-performance'],
+    queryFn: () => apiEndpoints.analytics.workflowPerformance(),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+};
+
+export const useWorkflowPerformanceById = (workflowId: string) => {
+  return useQuery({
+    queryKey: ['analytics', 'workflow-performance', workflowId],
+    queryFn: () => apiEndpoints.analytics.workflowPerformanceById(workflowId),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+};
+
+// Auto-fix hooks
+export const useDiagnoseError = () => {
+  return useMutation({
+    mutationFn: ({ workflowId, error }: { workflowId: string; error: any }) => 
+      apiEndpoints.autoFix.diagnoseError({ workflowId, error }),
+  });
+};
+
+export const useSuggestFix = () => {
+  return useMutation({
+    mutationFn: ({ workflowId, error }: { workflowId: string; error: any }) => 
+      apiEndpoints.autoFix.suggestFix({ workflowId, error }),
+  });
+};
+
+export const useAutoRepair = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: ({ workflowId, error }: { workflowId: string; error: any }) => 
+      apiEndpoints.autoFix.autoRepair({ workflowId, error }),
+    onSuccess: (_data, variables) => {
+      // Invalidate workflow queries to refresh the data
+      queryClient.invalidateQueries({ queryKey: ['workflows'] });
+      queryClient.invalidateQueries({ queryKey: ['analytics'] });
+      queryClient.invalidateQueries({ queryKey: ['workflow', variables.workflowId] });
+    },
+  });
+};
+
+// n8n Integration hooks
+export const useN8nWorkflows = () => {
+  return useQuery({
+    queryKey: ['n8n', 'workflows'],
+    queryFn: () => apiEndpoints.workflows.list(),
+    staleTime: 2 * 60 * 1000, // 2 minutes
+  });
+};
+
+export const useN8nWorkflow = (workflowId: string) => {
+  return useQuery({
+    queryKey: ['n8n', 'workflow', workflowId],
+    queryFn: () => apiEndpoints.workflows.get(workflowId),
+    staleTime: 2 * 60 * 1000, // 2 minutes
+  });
+};
+
+export const useN8nNodes = () => {
+  return useQuery({
+    queryKey: ['n8n', 'nodes'],
+    queryFn: async () => {
+      // In a real implementation, this would fetch from n8n service
+      // For now, we'll return mock data
+      return {
+        success: true,
+        data: [
+          { name: 'HTTP Request', type: 'http', category: 'Core Nodes' },
+          { name: 'Function', type: 'function', category: 'Core Nodes' },
+          { name: 'Switch', type: 'switch', category: 'Core Nodes' },
+          { name: 'Set', type: 'set', category: 'Core Nodes' },
+          { name: 'Item Lists', type: 'itemLists', category: 'Core Nodes' },
+          { name: 'Google Sheets', type: 'googleSheets', category: 'Google' },
+          { name: 'Slack', type: 'slack', category: 'Communication' },
+          { name: 'Email Send', type: 'emailSend', category: 'Communication' },
+          { name: 'Cron', type: 'cron', category: 'Triggers' },
+          { name: 'Webhook', type: 'webhook', category: 'Triggers' }
+        ]
+      };
+    },
+    staleTime: 10 * 60 * 1000, // 10 minutes
+  });
+};
+
+export const useExecuteN8nWorkflow = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: (workflowId: string) => apiEndpoints.workflows.execute(workflowId),
+    onSuccess: (_data, variables) => {
+      // Invalidate workflow queries to refresh the data
+      queryClient.invalidateQueries({ queryKey: ['n8n', 'workflows'] });
+      queryClient.invalidateQueries({ queryKey: ['n8n', 'workflow', variables] });
+      queryClient.invalidateQueries({ queryKey: ['analytics'] });
+    },
+  });
+};

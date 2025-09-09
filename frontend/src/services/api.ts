@@ -102,6 +102,22 @@ export const apiEndpoints = {
     generateWorkflow: (description: string, businessContext?: string) => 
       api.post('/api/ai/generate-workflow', { description, businessContext }),
   },
+  
+  // Analytics
+  analytics: {
+    overview: (period?: string) => api.get('/api/analytics', { params: { period } }),
+    timeSavings: (period?: string) => api.get('/api/analytics/time-savings', { params: { period } }),
+    costSavings: (period?: string) => api.get('/api/analytics/cost-savings', { params: { period } }),
+    workflowPerformance: () => api.get('/api/analytics/workflow-performance'),
+    workflowPerformanceById: (workflowId: string) => api.get(`/api/analytics/workflow-performance/${workflowId}`),
+  },
+  
+  // Auto-fix
+  autoFix: {
+    diagnoseError: (data: { workflowId: string; error: any }) => api.post('/api/ai/diagnose-error', data),
+    suggestFix: (data: { workflowId: string; error: any }) => api.post('/api/ai/suggest-fix', data),
+    autoRepair: (data: { workflowId: string; error: any }) => api.post('/api/ai/auto-repair', data),
+  },
 };
 
 // Helper function to check API connectivity

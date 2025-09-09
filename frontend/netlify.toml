@@ -1,37 +1,16 @@
-{
-  "build": {
-    "publish": "dist",
-    "command": "npm run build"
-  },
-  "plugins": [],
-  "headers": [
-    {
-      "source": "/*",
-      "headers": [
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        },
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
-        }
-      ]
-    }
-  ],
-  "redirects": [
-    {
-      "from": "/*",
-      "to": "/index.html",
-      "status": 200
-    }
-  ]
-}
+[build]
+publish = "dist"
+command = "npm run build"
+
+[[headers]]
+for = "/*"
+ [headers.values]
+ X-Frame-Options = "DENY"
+ X-XSS-Protection = "1; mode=block"
+ X-Content-Type-Options = "nosniff"
+ Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
