@@ -29,6 +29,8 @@ For detailed setup and deployment instructions, please see our comprehensive doc
 - [Frontend Development Server Guide](FRONTEND-DEVELOPMENT-SERVER-GUIDE.md) - How to run the frontend development server
 - [Detailed GitHub Import Instructions](DETAILED-GITHUB-IMPORT-INSTRUCTIONS.md) - Complete guide for running the GitHub import script and production deployments
 - [Netlify Deployment Fix Guide](NETLIFY-DEPLOYMENT-FIX-GUIDE.md) - Resolving netlify.toml parsing errors and deployment issues
+- [GitHub Repository Management Guide](GITHUB-REPOSITORY-MANAGEMENT-GUIDE.md) - Complete guide for managing your GitHub repository and fixing common issues
+- [Complete Repository Setup Guide](COMPLETE-REPOSITORY-SETUP-GUIDE.md) - End-to-end guide for setting up and managing your repository
 
 ## 📁 Repository Structure
 

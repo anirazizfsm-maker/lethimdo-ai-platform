@@ -134,7 +134,9 @@ echo ✅ Complete documentation
 echo ✅ Enterprise standards
 echo ✅ Cost-effective positioning
 echo.
-
+echo For repository management best practices, see:
+echo GITHUB-REPOSITORY-MANAGEMENT-GUIDE.md
+echo.
 start https://github.com/%GITHUB_USERNAME%/lethimdo-ai-platform
 
 :END
