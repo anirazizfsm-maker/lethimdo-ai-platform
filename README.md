@@ -42,6 +42,8 @@ lethimdo/
 
 - [GitHub Collaboration Guide](GITHUB-COLLABORATION-GUIDE.md) - Complete guide to using GitHub Issues and Pull Requests
 - [GitHub Team Collaboration Guide](GITHUB-COLLABORATION-TEAM-GUIDE.md) - Inviting team members and setting up collaboration
+- [Pull Request Description Guide](PULL-REQUEST-DESCRIPTION-GUIDE.md) - Writing effective pull request descriptions
+- [Pull Request Demonstration](PULL-REQUEST-DEMONSTRATION.md) - Example of how to create a pull request
 - [GitHub Workflow Example](GITHUB-WORKFLOW-EXAMPLE.md) - Step-by-step workflow example
 - [GitHub Actions Guide](GITHUB-ACTIONS-GUIDE.md) - Automated testing and deployment
 - GitHub Issues - For bug tracking, feature requests, and task management

@@ -92,6 +92,8 @@ Reminders for the author:
 
 ## 📋 Template for Lethimdo Pull Requests
 
+For a complete example of how to create a pull request with this template, see [Pull Request Demonstration](PULL-REQUEST-DEMONSTRATION.md).
+
 ```
 ## Summary
 <!-- Brief description of what this PR accomplishes -->
