@@ -1,51 +1,94 @@
 @echo off
-echo ================================
-echo   GITHUB CONNECTION SETUP
-echo   Bangladesh Freelance Agency
-echo ================================
+REM Connect Local Repository to GitHub Script for Lethimdo Bangladesh Freelance Agency
+REM This script helps connect your local repository to a GitHub remote repository
+
+echo 🚀 GitHub Repository Connection Script
+echo ======================================
+echo This script will help you connect your local Lethimdo repository to GitHub
 echo.
 
-set /p GITHUB_USERNAME="Enter your GitHub username: "
-set /p REPO_NAME="Enter repository name (default: lethimdo-ai-platform): "
+REM Check if we're in a git repository
+git rev-parse --git-dir >nul 2>&1
+if %errorlevel% neq 0 (
+    echo ❌ Error: Not in a git repository
+    echo Please run this script from the root of your git repository
+    pause
+    exit /b 1
+)
 
-if "%REPO_NAME%"=="" set REPO_NAME=lethimdo-ai-platform
+echo ✅ Git repository detected
+echo.
+
+REM Check if remote already exists
+git remote get-url origin >nul 2>&1
+if %errorlevel% equ 0 (
+    echo ⚠️  Remote origin already exists:
+    git remote get-url origin
+    echo.
+    set /p choice="Do you want to replace it? (y/N): "
+    if /i not "%choice%"=="y" (
+        echo Keeping existing remote configuration
+        pause
+        exit /b 0
+    )
+)
+
+REM Get GitHub username and repository name
+echo Please enter your GitHub information:
+set /p username="GitHub Username: "
+set /p repo="Repository Name (e.g., lethimdo-ai-platform): "
+
+REM Validate input
+if "%username%"=="" (
+    echo ❌ Error: Username cannot be empty
+    pause
+    exit /b 1
+)
+
+if "%repo%"=="" (
+    echo ❌ Error: Repository name cannot be empty
+    pause
+    exit /b 1
+)
+
+REM Create the remote URL
+set remote_url=https://github.com/%username%/%repo%.git
 
 echo.
-echo Connecting to: https://github.com/%GITHUB_USERNAME%/%REPO_NAME%.git
+echo Setting up remote repository: %remote_url%
 echo.
 
-echo [1/4] Adding GitHub remote...
-git remote add origin https://github.com/%GITHUB_USERNAME%/%REPO_NAME%.git
+REM Add the remote origin
+git remote add origin %remote_url%
+if %errorlevel% neq 0 (
+    echo ❌ Error: Failed to add remote origin
+    pause
+    exit /b 1
+)
 
-echo [2/4] Renaming branch to main...
-git branch -M main
+echo ✅ Remote origin added successfully
+echo.
 
-echo [3/4] Replacing README with professional version...
-copy "README-PROFESSIONAL.md" "README.md"
-git add README.md
-git commit -m "Add professional README for international clients"
+REM Verify the remote
+echo Verifying remote configuration:
+git remote -v
+echo.
 
-echo [4/4] Pushing to GitHub...
+REM Try to push to GitHub (may need to set upstream)
+echo Attempting to push to GitHub...
 git push -u origin main
+if %errorlevel% neq 0 (
+    echo ⚠️  Push failed. This might be expected for a new repository.
+    echo Try creating the repository on GitHub first, then run:
+    echo git push -u origin main
+    echo.
+)
 
+echo 🎉 GitHub repository connection process completed!
 echo.
-echo ================================
-echo   SUCCESS! Repository Connected
-echo ================================
-echo.
-echo Your repository is now live at:
-echo https://github.com/%GITHUB_USERNAME%/%REPO_NAME%
-echo.
-echo Next steps for your freelance agency:
-echo 1. Deploy to Vercel (frontend)
-echo 2. Deploy to Railway (backend)  
-echo 3. Add live demo links to repository
-echo 4. Start showcasing to international clients
-echo.
-echo Repository features perfect for client acquisition:
-echo ✅ Professional README with Bangladesh team highlight
-echo ✅ Complete documentation and legal compliance
-echo ✅ Enterprise-ready technology stack showcase
-echo ✅ Cost-effective positioning for USD clients
+echo Next steps:
+echo 1. Go to https://github.com/%username%/%repo% and create the repository if it doesn't exist
+echo 2. Run "push-to-github.bat" to push your code
+echo 3. Configure repository settings on GitHub as needed
 echo.
 pause
