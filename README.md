@@ -10,6 +10,8 @@ For detailed setup and deployment instructions, please see our comprehensive doc
 - [GitHub Setup Guide](GITHUB-SETUP-GUIDE.md) - Repository configuration
 - [Frontend Deployment Guide](frontend/DEPLOYMENT-GUIDE.md) - Frontend deployment to Netlify
 - [Backend Deployment Guide](RENDER-DEPLOYMENT-GUIDE.md) - Backend deployment to Render.com
+- [Custom Domain Configuration Guide](CUSTOM-DOMAIN-CONFIGURATION-GUIDE.md) - Setting up lethimdo.com and api.lethimdo.com
+- [Render API Subdomain Guide](RENDER-API-SUBDOMAIN-GUIDE.md) - Configuring api.lethimdo.com
 - [GitHub Actions Guide](GITHUB-ACTIONS-GUIDE.md) - Automated testing and deployment
 
 ## 📁 Repository Structure
@@ -37,6 +39,8 @@ lethimdo/
 - `setup-github-project.bat` - Guide for setting up GitHub Projects
 - `frontend/deploy-to-netlify.bat` - Deploy frontend to Netlify
 - `deploy-render-now.bat` - Deploy backend to Render.com
+- `check-custom-domain.bat` - Check custom domain configuration
+- `check-dns-status.bat` - Check DNS status for frontend domain
 
 ## 🤝 Collaboration Tools
 
