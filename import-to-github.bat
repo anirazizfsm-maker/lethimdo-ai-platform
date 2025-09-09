@@ -123,8 +123,8 @@ echo - Proves enterprise-grade documentation
 echo - Highlights Bangladesh cost advantage
 echo.
 echo 🚀 NEXT STEPS:
-echo 1. Deploy frontend to Vercel
-echo 2. Deploy backend to Railway
+echo 1. Deploy frontend to Netlify
+echo 2. Deploy backend to Render.com
 echo 3. Add live demo links to repository
 echo 4. Start client acquisition with portfolio showcase
 echo.

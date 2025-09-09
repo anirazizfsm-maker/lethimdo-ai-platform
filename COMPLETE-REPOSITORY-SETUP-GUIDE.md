@@ -347,7 +347,7 @@ After setting up your repository:
 
 2. **Set Up Deployment**:
    - Configure Netlify for frontend
-   - Set up Render.com for backend
+   - Set up Render.com for backend (preferred over Railway for Bangladesh agencies)
    - Add custom domains
 
 3. **Start Collaboration**:

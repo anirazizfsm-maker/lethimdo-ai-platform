@@ -291,6 +291,33 @@ For repetitive tasks:
 3. Add error handling
 4. Include user prompts for interactive scripts
 
+## 🎯 DEPLOYMENT PREFERENCES FOR BANGLADESH AGENCIES
+
+### Platform Choices
+
+Based on your preferences for cost-effective international freelance agency setup:
+
+1. **Frontend Deployment**: Netlify (free tier available, no credit card required)
+2. **Backend Deployment**: Render.com (preferred over Railway due to access restrictions)
+3. **API Services**: Personal OpenAI account (leveraging free credits)
+
+### Deployment Best Practices
+
+1. **Environment Variables**:
+   - Never commit credentials to the repository
+   - Use platform-specific secret management
+   - Document required variables in deployment guides
+
+2. **Continuous Deployment**:
+   - Configure GitHub Actions for automated testing
+   - Set up branch protection for main branch
+   - Use pull requests for code review before deployment
+
+3. **Cost Optimization**:
+   - Use free tiers during development
+   - Monitor usage to avoid unexpected charges
+   - Take advantage of platform-specific benefits for Bangladesh agencies
+
 ## 🛡️ SECURITY BEST PRACTICES
 
 ### Credential Management
