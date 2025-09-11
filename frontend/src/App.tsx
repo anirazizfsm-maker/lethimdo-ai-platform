@@ -15,6 +15,8 @@ import MarketingPage from './components/MarketingPage';
 import AnalyticsPage from './components/analytics/AnalyticsPage';
 import WorkflowPerformanceDetail from './components/analytics/WorkflowPerformanceDetail';
 import WorkflowsPage from './components/WorkflowsPage';
+import LoginPage from './components/LoginPage';
+import RegisterPage from './components/RegisterPage';
 import { useIntegrations, useConnectIntegration } from './hooks/useApi';
 import WorkflowBuilder from './components/WorkflowBuilder';
 import { Dialog, Transition } from '@headlessui/react';
