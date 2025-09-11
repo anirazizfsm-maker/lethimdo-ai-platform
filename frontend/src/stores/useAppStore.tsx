@@ -1,6 +1,90 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { User, Workflow } from '../../../shared/types';
+// Temporarily disable this import due to build issues
+// import { User, Workflow } from '../../../shared/types';
+
+// Define simplified types for now to avoid build issues
+interface User {
+  id: string;
+  email: string;
+  name: string;
+  subscriptionTier: 'free' | 'starter' | 'pro' | 'business';
+  subscriptionExpiry: Date;
+  createdAt: Date;
+  preferences: UserPreferences;
+  businessProfile: BusinessProfile;
+}
+
+interface UserPreferences {
+  theme: 'light' | 'dark' | 'system';
+  notifications: {
+    email: boolean;
+    push: boolean;
+    slack: boolean;
+  };
+  dashboard: {
+    defaultPeriod: 'day' | 'week' | 'month' | 'year';
+    defaultCharts: string[];
+  };
+}
+
+interface BusinessProfile {
+  industry: string;
+  companySize: string;
+  currentTools: string[];
+  painPoints: string[];
+  goals: string[];
+  averageHourlyRate?: number;
+}
+
+interface Workflow {
+  id: string;
+  userId: string;
+  name: string;
+  description: string;
+  naturalLanguageInput: string;
+  n8nWorkflowId: string;
+  status: 'draft' | 'active' | 'paused' | 'failed';
+  template: string;
+  config: WorkflowConfig;
+  credentials: CredentialRef[];
+  createdAt: Date;
+  lastExecuted: Date;
+  executionCount: number;
+  successRate: number;
+  estimatedTimeSavings: number;
+  estimatedCostSavings: number;
+}
+
+interface WorkflowConfig {
+  schedule: string;
+  retryPolicy: RetryPolicy;
+  notifications: NotificationConfig;
+  autoFix: boolean;
+  variables: Record<string, any>;
+  timeout: number;
+}
+
+interface RetryPolicy {
+  maxRetries: number;
+  retryDelay: number;
+  backoffMultiplier: number;
+}
+
+interface NotificationConfig {
+  onSuccess: boolean;
+  onFailure: boolean;
+  channels: ('email' | 'slack' | 'webhook')[];
+  webhookUrl?: string;
+}
+
+interface CredentialRef {
+  id: string;
+  provider: string;
+  name: string;
+  type: 'oauth' | 'api_key' | 'basic_auth';
+  status: 'active' | 'expired' | 'invalid';
+}
 
 interface AppState {
   // User state
