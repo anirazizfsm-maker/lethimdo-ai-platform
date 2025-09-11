@@ -44,7 +44,7 @@ import {
 // Import framer-motion for animations (similar to VLY.AI design)
 import { motion } from 'framer-motion';
 
-// Simple Button Component to replace the missing ui/button
+// Add the custom Button component to replace the missing ui/button
 const Button = ({ 
   onClick, 
   className, 
@@ -354,12 +354,12 @@ const LandingPage: React.FC = () => {
                         elisanapitupulu@gmail.com
                       </div>
                     </div>
-                    <button className="mt-3 w-full rounded-lg bg-[#1f51ff] hover:bg-[#1b45da] text-white py-2 px-4">
+                    <Button className="mt-3 w-full rounded-lg bg-[#1f51ff] hover:bg-[#1b45da] text-white">
                       Change account
-                    </button>
-                    <button className="mt-2 w-full rounded-lg border border-white/15 text-white bg-[#0b1020]/60 hover:bg-[#0f1730]/70 py-2 px-4">
+                    </Button>
+                    <Button variant="outline" className="mt-2 w-full rounded-lg border-white/15 text-white bg-[#0b1020]/60 hover:bg-[#0f1730]/70">
                       Add account
-                    </button>
+                    </Button>
                   </div>
 
                   <div className="mt-4">
